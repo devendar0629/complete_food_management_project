@@ -401,59 +401,57 @@
 			sideMenu.classList.toggle('side-menu-open')
 		}
 
-		// let addSearch = function(e){
-		// 	console.log('Search fn');
-		// 	window.location.pathname = filterRemovedPath();
-		// }
-
 		let updatePath = function (newPath) {
 			window.location.pathname = newPath;
 		}
 
-		let addToPath = function (path) {
-			window.location.pathname += path;
-		}
+		function filterSearchRemovedPath() {
+			let filterRemoved = filterRemovedPath();
+			let reqPath = ''
 
-		let filterRemovedPath = function () {
-			currPath = window.location.pathname
-
-			if (currPath.includes('hotels') || currPath.includes('trusts') || currPath.includes('refugeecamps')) {
-				slash = 0
-				let i = currPath.length - 1;
-				for (i = currPath.length - 1; i >= 0; i--) {
-					if (currPath[i] == '/') {
-						slash++
-					}
-					if (slash >= 2) {
+			if (filterRemoved.includes('?')) {
+				reqPath = reqPath + filterRemoved.substr(0, filterRemoved.indexOf('?') - 2);
+				let end = 0;
+				for (end = filterRemoved.indexOf('?'); end < filterRemoved.length; end++) {
+					if (filterRemoved[end] == '/') {
 						break;
 					}
 				}
-				return currPath.substr(0,i+1);
-			}
-			return window.location.pathname;
+				end = end + 1
+				reqPath = reqPath + filterRemoved.substr(end);
+				return reqPath
+			} else return filterRemoved;
 		}
 
-		// let filterSearchRemovedPath = function(){
-		// 	noFilter = filterRemovedPath();
-		// 	reqPath = ''
-		// 	if(noFilter.include('search')){
-		// 		let i = 0
-		// 		for(i = 0;i < noFilter.length;i++){
-		// 			if(noFilter[i] == 's' && noFilter)
-		// 		}
-		// 	}
-		// }
+		let filterRemovedPath = function () {
+			let currPath = window.location.pathname;
+			if (window.location.pathname.includes('trusts')) {
+				// cP.substr(0,cP.indexOf('Home')-1) + cP.slice(16)
+				currPath = currPath.slice(0, currPath.indexOf('trusts') - 1) + currPath.slice(currPath.indexOf('trusts') + 6);
+				return currPath;
+			}
+			else if (window.location.pathname.includes('refugeecamps')) {
+				// cP.substr(0,cP.indexOf('Home')-1) + cP.slice(16)
+				currPath = currPath.slice(0, currPath.indexOf('refugeecamps') - 1) + currPath.slice(currPath.indexOf('refugeecamps') + 12);
+				return currPath;
+			}
+			else if (window.location.pathname.includes('hotels')) {
+				// cP.substr(0,cP.indexOf('Home')-1) + cP.slice(16)
+				currPath = currPath.slice(0, currPath.indexOf('hotels') - 1) + currPath.slice(currPath.indexOf('hotels') + 6);
+				return currPath;
+			}
 
-		let removeFilter = function (){
-			window.location.pathname = filterRemovedPath();
+			else {
+				return currPath;
+			}
 		}
 
 		let addPlace = function(){
-			window.location.pathname = filterRemovedPath() + 'placedetails/'
+			window.location.pathname = filterSearchRemovedPath() + 'placedetails/'
 		}
 
 		let addFilter = function(type){
-			window.location.pathname = filterRemovedPath() + `${type}/`
+			window.location.href = filterSearchRemovedPath() + `${type}/`
 		}
 
 		if (document.querySelector('.content-root').childElementCount == 0) {
@@ -474,6 +472,13 @@
 			}
 			document.querySelector('.content-root').appendChild(message);
 		}
+
+		let handleSearch = function () {
+			let query = document.querySelector('.search-box').value;
+			window.location.href = filterSearchRemovedPath() + `?q=${query}/`;
+		}
+
+		document.querySelector('.search-btn').addEventListener('click', handleSearch);
 	</script>
 </body>
 

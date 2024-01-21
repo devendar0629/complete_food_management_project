@@ -17,7 +17,6 @@ def show_user(request,username):
         queryLength = len(query)
         query = query[:queryLength-1]
 
-        print(query)
         relatedData = HotelDetails.objects.filter(name__startswith = query)
 
         for data in relatedData:

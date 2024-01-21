@@ -8,6 +8,22 @@ from hotelDetailsApp.models import HotelDetails
 from loginApp.views import show_login_form
 
 def show_base(request):
+
+    if(request.GET.get('q','') is not None):
+        query = request.GET.get('q','')
+        context = {
+            'allData':[]
+        }
+        queryLength = len(query)
+        query = query[:queryLength-1]
+
+        relatedData = HotelDetails.objects.filter(name__startswith = query)
+
+        for data in relatedData:
+            context['allData'].append(data)
+
+        return render(request,'base/base.html',context)
+
     allData = HotelDetails.objects.all()
     context = {
         'allData':allData
