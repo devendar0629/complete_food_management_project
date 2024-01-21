@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-family: 'Ubuntu', sans-serif;
+        }
+
+        .root {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #252A34;
+        }
+
+        header h2 {
+            font-weight: 500;
+            font-size: 2.5rem;
+        }
+
+        .login-root {
+            padding: 2rem;
+            border-radius: .55rem;
+            display: flex;
+            justify-items: center;
+            box-shadow: 0 0 8.5px .05px snow;
+            align-items: center;
+            flex-flow: column nowrap;
+            background-color: #08D9D6;
+            font-size: 1.3rem;
+        }
+
+        .login-root form {
+            display: flex;
+            justify-content: center;
+            gap: 3.5rem;
+            align-items: center;
+            flex-flow: column nowrap;
+            color: #181818;
+        }
+
+        #id_username,
+        #id_password {
+            font-family: 'Ubuntu';
+            border-radius: 1.255rem;
+            padding: .4rem .8rem;
+            margin-left: 1.2rem;
+            /* font-weight: 500; */
+            padding-left: 1rem;
+            border: 1px solid rgb(174, 174, 174);
+            font-size: 1.3rem;
+        }
+
+        #id_username:focus,
+        #id_password:focus {
+            outline: none;
+            box-shadow: 0 0 8.5px 0px rgb(57, 56, 56);
+        }
+
+        .username-password {
+            font-weight: 600;
+            display: flex;
+            flex-flow: column nowrap;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-wrap button {
+            font-size: 1.5rem;
+            font-family: 'Ubuntu', sans-serif;
+            padding: .35rem .65rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 0 4.5px rgba(0, 0, 0, .2);
+            border-radius: .5rem;
+            transition-property: transform;
+            transition-duration: .15s;
+        }
+
+        .login-wrap button:hover {
+            background-color: rgb(224, 222, 222);
+            box-shadow: 0 0 7px rgba(255, 255, 255, .8);
+        }
+
+        .login-wrap button:active {
+            transform: scale(0.95);
+        }
+
+        .login-wrap {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+        }
+
+        .errors {
+            border: 1px solid red;
+            padding: 1rem;
+            border-radius: .4rem;
+        }
+
+        .error {
+            margin-left: .8rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="root">
+        <main class="login-root">
+            <form method="POST">{% csrf_token %}
+                <header>
+                    <h2>Login</h2>
+                </header>
+                <div class="username-password">
+                    <section class="username-input">
+                        <label for="username">
+                            Username &nbsp; &nbsp;: {{form.username}}
+                        </label>
+                    </section>
+                    <section class="password-input">
+                        <label for="password">
+                            Password &nbsp;&nbsp; : {{form.password}}
+                        </label>
+                    </section>
+                </div>
+                <section class="errors">
+                    <ul>
+                        {% for error in errors %}
+                        <li class="error">{{error}}</li>
+                        {% endfor %}
+                    </ul>
+                </section>
+                <div class="login-wrap">
+                    <button type="submit">
+                        Login
+                    </button>
+                    <button type="reset">
+                        Clear
+                    </button>
+                </div>
+            </form>
+        </main>
+    </div>
+</body>
+<script>
+    if (document.querySelector('.errors').children[0].children.length == 0) {
+        document.querySelector('.errors').style.display = 'none';
+    }
+</script>
+
+</html>

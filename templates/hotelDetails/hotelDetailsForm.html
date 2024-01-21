@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel details</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            height: 100svh;
+            display: flex;
+            justify-content: center;
+            font-family: 'Ubuntu',sans-serif;
+            align-items: center;
+            background-color: #242424;
+            flex-flow: column nowrap;
+        }
+
+        form {
+            display: flex;
+            gap: 1rem;
+            font-size: larger;
+            flex-flow: column nowrap;
+        }
+
+        .input-box {
+            border: none;
+            display: flex;
+            flex-flow: row nowrap;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .input-box input {
+            padding: .3rem .75rem;
+            border: none;
+            font-family: 'Ubuntu',sans-serif;
+            border: .7px solid black;
+            border-radius: .35rem;
+            font-size: 1.2rem;
+        }
+        
+        .input-box input:focus {
+            outline: none;
+            box-shadow: 0 0 3px 2px skyblue;
+        }
+        
+        .input-box select {
+            font-size: 1.2rem;
+            padding: .3rem .25rem;
+            font-family: 'Ubuntu',sans-serif;
+            border: .7px solid black;
+            cursor: pointer;
+            text-align: center;
+            border-radius: .35rem;
+        }
+        
+        .input-box select:focus {
+            outline: none;
+            box-shadow: 0 0 3px 2px skyblue;
+        }
+
+        .root h2 {
+            font-size: 2rem;
+        }
+
+        .root {
+            gap: 5vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            border-radius: .4rem;
+            box-shadow: 0 0 4px 2px rgba(0,0,0,.2);
+            flex-flow: column nowrap;
+            background-color: whitesmoke;
+            padding: 2.5rem;
+        }
+
+        .submit-reset {
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2.85vh;
+        }
+
+        .submit-reset input {
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: .35rem .7rem;
+            border-radius: .4rem;
+            border: .8px solid black;
+            font-family: 'Ubuntu',sans-serif;
+        }
+
+        .submit-reset input:hover {
+            box-shadow: 0 0 5px 2px rgb(135, 206, 235);
+            background-color: rgba(135,206,235,.35);
+        }
+
+        #id_foodAvailability {
+            transform: scale(1.58);
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="root">
+        <h2>Place Details</h2>
+
+        <form method="POST" action=".">{% csrf_token %}
+            <section class="input-box"><label>Name : </label> {{form.name}}</section>
+            <section class="input-box"><label>Place : </label> {{form.place}}</section>
+            <section class="input-box"><label>Is Food Available ? </label> {{form.foodAvailability}}</section>
+            <section class="input-box"><label>Quantity(in kgs) : </label> {{form.quantity}}</section>
+            <section class="input-box"><label>Contact number : </label> {{form.contactNumber}}</section>
+            <section class="input-box"><label>Food varieties : </label> {{form.foodVarieties}}</section>
+            <section class="input-box"><label>Place image(http path) : </label> {{form.imagePath}}</section>
+            <section class="input-box"><label>Place type : </label> {{form.type}}</section>
+            <section class="submit-reset">
+                <input class="submit-btn" type="submit">
+                <input class="reset-btn" type="reset">
+            </section>
+        </form>
+    </main>
+</body>
+
+</html>

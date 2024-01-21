@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Food waste management</title>
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+		@import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
+
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		html {
+			font-size: large;
+			font-family: 'Open Sans', sans-serif;
+		}
+
+		.root {
+			display: flex;
+			min-height: 100vh;
+			flex-direction: column;
+		}
+
+		/* .header-intro img {
+	width: 100%;
+	height: 100px;
+	background-repeat: no-repeat;
+	filter: blur(2px);
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	background-size: cover;
+	vertical-align: bottom;
+} */
+
+		.header-intro div {
+			background: radial-gradient(blue, rgb(121, 121, 255));
+			width: 100%;
+			height: 100px;
+		}
+
+		.header-root {
+			top: 0;
+			position: sticky;
+		}
+
+		.header-title {
+			position: absolute;
+			color: white;
+			font-weight: 800;
+			top: 28px;
+			padding-right: 10.5rem;
+			text-align: center;
+			width: 100%;
+			font-family: 'Open Sans', sans-serif;
+			text-shadow: 0 0 1.35px white;
+		}
+
+		.menu-icon .bar1,
+		.bar2,
+		.bar3 {
+			width: 32px;
+			height: 4px;
+			margin: 2px 0;
+			background-color: red;
+			transition: transform 0.3s;
+		}
+
+		.menu-open .bar1 {
+			transform: rotate(-45deg) translate(0px, 11px);
+		}
+
+		.navigation-tabs li {
+			list-style-type: none;
+		}
+
+		.menu-open .bar3 {
+			transform: rotate(45deg) translate(0px, -11px);
+		}
+
+		.menu-open .bar2 {
+			opacity: 0;
+		}
+
+		.menu-icon {
+			z-index: 2;
+			margin-left: max(1.55rem, 3.38vw);
+			display: flex;
+			cursor: pointer;
+			justify-content: center;
+			align-items: center;
+			flex-flow: column nowrap;
+		}
+
+		.search-wrapper {
+			display: flex;
+			width: min(90%, 1100px);
+		}
+
+		.search-box {
+			height: 1.75rem;
+			width: 100%;
+			font-family: 'Open Sans', sans-serif;
+			padding-left: .7rem;
+			padding-top: .6rem;
+			padding-right: 2.2rem;
+			padding-bottom: .62rem;
+			font-size: 1rem;
+			outline-color: transparent;
+			/* border: 1px solid gray; */
+			border: none;
+			border-radius: 1.25rem;
+		}
+
+		.search-box:focus {
+			outline-color: rgb(26, 169, 226);
+		}
+
+		.search-btn {
+			border: none;
+			height: 1.65rem;
+			background: none;
+			width: 1.65rem;
+			transform: translate(-1.85rem, 1.85px);
+			cursor: pointer;
+		}
+
+		.search-icon {
+			width: 1.2rem;
+			/* position: absolute; */
+			height: 1.2rem;
+		}
+
+		.menu-search {
+			display: flex;
+			gap: 2rem;
+			justify-content: space-between;
+			margin: .74rem 0;
+			flex-wrap: nowrap;
+			min-width: 100%;
+		}
+
+		.navigation-menu {
+			padding-top: .45rem;
+			display: flex;
+			min-height: 60px;
+			flex-flow: column nowrap;
+			gap: .4rem;
+			align-items: center;
+			background-color: rgb(15, 249, 249);
+		}
+
+		.side-menu {
+			background-color: #181818;
+			min-height: 100vh;
+			top: 0px;
+			flex-grow: 1;
+			z-index: 1;
+			flex-flow: column nowrap;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			border: none;
+			width: min(365px, 37vw);
+			position: fixed;
+			gap: 7.5vh;
+			transform-origin: left;
+			left: calc(min(365px, 37vw)*(-2));
+			transition-property: left;
+			transition-duration: .3s;
+			transition-timing-function: ease;
+		}
+
+		.side-menu ul {
+			display: flex;
+			flex-flow: column nowrap;
+			gap: .75rem;
+			width: 80%;
+		}
+
+		.side-menu li {
+			display: flex;
+			justify-content: space-evenly;
+			align-items: center;
+			padding: .35rem 1rem;
+			color: white;
+			cursor: pointer;
+			font-weight: 500;
+			text-align: center;
+			list-style-type: none;
+			transition-property: background-color;
+			transition-duration: .1s;
+		}
+
+		.side-menu li:hover {
+			background-color: rgba(250, 250, 250, .18);
+			border-radius: .25rem;
+		}
+
+		.side-menu-open {
+			left: 0px;
+		}
+
+		.content-root {
+			display: flex;
+			flex-direction: column;
+			flex-wrap: nowrap;
+			padding-block: 1rem;
+			gap: 1rem;
+			align-items: start;
+			background-color: rgb(138, 78, 17);
+		}
+
+		.content {
+			flex-grow: 1;
+			gap: 1.5rem;
+			width: min(90vw, 750px);
+			margin-inline: auto;
+			display: flex;
+			justify-content: start;
+			align-items: center;
+			padding: 15px;
+			border-radius: .55rem;
+			background-color: pink;
+		}
+
+		.hotel-image {
+			vertical-align: bottom;
+			height: min(20vw, 200px);
+			border-radius: .35rem;
+			width: min(20vw, 200px);
+		}
+
+		.food-available-no::after {
+			content: "❌";
+		}
+
+		.food-available-yes::after {
+			content: "✅";
+		}
+
+		.hotel-details {
+			display: flex;
+			padding: .8rem;
+			/* max-width: fit-content; */
+			background-color: rgb(162, 160, 160);
+			flex-grow: 1;
+			font-size: 1.85vh;
+			color: snow;
+			word-spacing: 4px;
+			border-radius: .55rem;
+			flex-direction: column;
+		}
+
+		.detail-name {
+			color: rgb(20, 115, 183);
+		}
+
+		.hotel-address {
+			font-style: oblique;
+		}
+
+		/* Mobile devices */
+
+		@media screen and (width <=480px) {
+			.side-menu {
+				width: 37.5vw;
+			}
+		}
+
+		.side-menu {
+			height: 100%;
+		}
+
+		.profile-icon {
+			vertical-align: bottom;
+			width: 40px;
+			height: 25px;
+		}
+
+		.logout {
+			position: absolute;
+			top: 0;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			flex-flow: row nowrap;
+			gap: .75rem;
+			transform: translate(-1rem, 1.435rem);
+			right: 0;
+		}
+
+		.logout {
+			border: none;
+			box-shadow: 0 0 7px 3px red;
+			background-color: rgb(235, 216, 235);
+			padding: 0.5rem 0.75rem;
+			display: flex;
+			justify-content: center;
+			align-items: baseline;
+			flex-flow: row nowrap;
+			border-radius: .4rem;
+		}
+
+		.username {
+			font-weight: 600;
+			font-family: 'Ubuntu', sans-serif;
+			color: #001aff;
+			font-size: 1.2rem;
+			letter-spacing: .85px;
+		}
+
+		.logout button {
+			border: none;
+			border-radius: .35rem;
+			padding-block: .25rem;
+			cursor: pointer;
+			padding-inline: .55rem;
+			font-weight: 500;
+			color: darkblue;
+			font-family: 'Ubuntu', sans-serif;
+			background-color: rgb(65, 201, 255);
+			font-size: .95rem;
+		}
+
+		.logout button:hover {
+			background-color: rgb(0, 153, 255);
+			box-shadow: 0 0 5px rgba(255, 255, 255, 1);
+			color: white;
+			box-shadow: 0 0 4px white;
+		}
+
+		.add-place-btn {
+			font-size: 1.2rem;
+			font-family: 'Ubuntu', sans-serif;
+			padding: .285rem .6rem;
+			cursor: pointer;
+			border: none;
+			/* position: absolute; */
+			/* top: 0; */
+			border-radius: .5rem;
+			font-weight: 600;
+		}
+	</style>
+</head>
+
+<body>
+
+	<div class="root">
+
+		<header class="header-root">
+			<section class="header-intro">
+				<div>
+					<!-- <img src="https://im.freepik.com/premium-vector/dark-blue-vector-background-with-tasty-food_6869-2110.jpg"> -->
+				</div>
+				<h1 class="header-title"> Food Reduction Website</h1>
+				<section class="logout">
+					<p class="username">{{username}}</p>
+					<button onclick="updatePath('')">
+						Logout
+					</button>
+				</section>
+			</section>
+
+			<aside class="side-menu">
+				<button onclick="addPlace()" class="add-place-btn">
+					Add a Place +
+				</button>
+				<ul>
+					<li onclick="addFilter('trusts')" class="menu-item">Trusts</li>
+					<li onclick="addFilter('refugeecamps')" class="menu-item">Refugee camps</li>
+					<li onclick="addFilter('hotels')" class="menu-item">Hotels</li>
+				</ul>
+			</aside>
+
+			<section class="navigation-menu">
+				<div class="menu-search">
+					<div onclick="toggleState(this)" class="menu-icon">
+						<div class="bar1"></div>
+						<div class="bar2"></div>
+						<div class="bar3"></div>
+					</div>
+					<div class="search-wrapper">
+						<input class="search-box" type="text" name="" id="">
+						<button class="search-btn">
+							<img class="search-icon" src="https://cdn-icons-png.flaticon.com/512/9135/9135995.png"
+								alt="search">
+						</button>
+					</div>
+				</div>
+				</nav>
+			</section>
+
+		</header>
+
+		<main class="content-root">
+			{% for data in userData %}
+
+			<div class="content">
+				<img class="hotel-image" src="{{data.imagePath}}" alt="{{data.name}}">
+				<div class="hotel-details">
+					<p><span class="detail-name">Name</span> : {{data.name}}</p>
+					<p><span class="detail-name">Place</span> : {{data.place}}</p>
+
+					{% if data.foodAvailability == True %}
+					<p class="food-available-yes"><span class="detail-name">Food availability</span> : </p>
+					{% else %}
+					<p class="food-available-no"><span class="detail-name">Food availability</span> : </p>
+					{% endif %}
+
+					<p><span class="detail-name">Quantity available</span> : {{data.quantity}}</p>
+					<p><span class="detail-name">Contact no </span> : <a style="color: rgb(0, 0, 244);"
+							href="tel:{{data.contactNumber}}">{{data.contactNumber}}</a></p>
+					<p><span class="detail-name">Foods available</span> : {{data.foodVarieties}}</p>
+				</div>
+			</div>
+
+			{% endfor %}
+
+		</main>
+	</div>
+	<script>
+		let sideMenu = document.getElementsByClassName('side-menu')[0]
+		function toggleState(element) {
+			element.classList.toggle('menu-open');
+			sideMenu.classList.toggle('side-menu-open')
+		}
+
+		let updatePath = function (newPath) {
+			window.location.pathname = newPath;
+		}
+
+		let addToPath = function (path) {
+			window.location.pathname += path;
+		}
+
+		function filterRemovedPath() {
+			let currPath = window.location.pathname;
+			if (window.location.pathname.includes('trusts')) {
+				// cP.substr(0,cP.indexOf('Home')-1) + cP.slice(16)
+				currPath = currPath.slice(0, currPath.indexOf('trusts') - 1) + currPath.slice(currPath.indexOf('trusts') + 6);
+				return currPath;
+			}
+			else if (window.location.pathname.includes('refugeecamps')) {
+				// cP.substr(0,cP.indexOf('Home')-1) + cP.slice(16)
+				currPath = currPath.slice(0, currPath.indexOf('refugeecamps') - 1) + currPath.slice(currPath.indexOf('refugeecamps') + 12);
+				return currPath;
+			}
+			else if (window.location.pathname.includes('hotels')) {
+				// cP.substr(0,cP.indexOf('Home')-1) + cP.slice(16)
+				currPath = currPath.slice(0, currPath.indexOf('hotels') - 1) + currPath.slice(currPath.indexOf('hotels') + 6);
+				return currPath;
+			}
+
+			else {
+				return currPath;
+			}
+
+		}
+
+		function filterSearchRemovedPath() {
+			let filterRemoved = filterRemovedPath();
+			let reqPath = ''
+
+			if (filterRemoved.includes('?')) {
+				reqPath = reqPath + filterRemoved.substr(0, filterRemoved.indexOf('?') - 2);
+				let end = 0;
+				for (end = filterRemoved.indexOf('?'); end < filterRemoved.length; end++) {
+					if (filterRemoved[end] == '/') {
+						break;
+					}
+				}
+				end = end + 1
+				reqPath = reqPath + filterRemoved.substr(end);
+				return reqPath
+			} else return filterRemoved;
+		}
+
+		let addPlace = function () {
+			window.location.pathname = filterSearchRemovedPath() + 'placedetails/'
+		}
+
+		let addFilter = function (type) {
+			window.location.href = filterSearchRemovedPath() + `${type}/`;
+		}
+
+		if (document.querySelector('.content-root').childElementCount == 0) {
+			console.log('no items');
+			message = document.createElement("p");
+			type = ''
+			if (window.location.pathname.includes('hotels')) {
+				type = 'hotel'
+			} else if (window.location.pathname.includes('trusts')) {
+				type = 'trust'
+			} else if (window.location.pathname.includes('refugeecamps')) {
+				type = 'refugee camp'
+			}
+			message.textContent = `No ${type}s found !`;
+			document.querySelector('.content-root').appendChild(message);
+		}
+
+		let handleSearch = function () {
+			let query = document.querySelector('.search-box').value;
+			window.location.href = filterSearchRemovedPath() + `?q=${query}/`;
+		}
+
+		document.querySelector('.search-btn').addEventListener('click', handleSearch);
+	</script>
+</body>
+
+</html>
